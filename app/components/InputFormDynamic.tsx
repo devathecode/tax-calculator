@@ -141,7 +141,7 @@ const InputFormDynamic = () => {
 
     return (
         <div className="grid grid-cols-12 gap-2 sm:gap-3 md:gap-5">
-            <div className="col-span-6 px-4 order-1">
+            <div className="col-span-12 md:col-span-6 px-4 order-1">
                 <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-12">
                     <div className="col-span-12 mb-4">
                         <Label text1="Gross Income" text2="per month"/>
@@ -187,7 +187,7 @@ const InputFormDynamic = () => {
                     {/*</button>*/}
                 </form>
             </div>
-            <div className="col-span-6 px-4 order-3">
+            <div className="col-span-12 md:col-span-6 px-4 order-2 md:order-3">
                 <div className="grid grid-cols-12">
                     <div className="col-span-12">
                         <Label text1="Select claim category" text2="per month"/>
@@ -210,12 +210,12 @@ const InputFormDynamic = () => {
                     </div>
                 </div>
             </div>
-            <div className="col-span-6 bg-gray-100 p-4 order-2">
+            <div className="col-span-12 md:col-span-6 bg-gray-100 p-4 order-2">
                 <Formtext text="Summary Report" color="text-black uppercase"/>
 
                 {formValue && (<div className="grid grid-cols-12" ref={reportTemplateRef}>
                     {formValue.GrossSalary * 12 < 500000 && formValue.GrossSalary > 0 ?
-                        <div className="text-center col-span-12 text-xl text-gray-500 mt-10">
+                        <div className="text-center col-span-12 text-sm md:text-base lg:text-xl xl:text-4xl text-gray-500 mt-10">
                             You are gross salary {(formValue.GrossSalary * 12).toLocaleString("en-In")} per/year is less than 5,00,000
                             You are not eligible for any tax
                         </div>

@@ -7,7 +7,7 @@ import InputFormDynamic from "@/app/components/InputFormDynamic";
 export default function Home() {
   return (
     <main className="max-w-7xl mx-auto">
-        <Formtext text="Realtime Tax Calculator" color="text-black text-4xl py-5 uppercase"/>
+        <Formtext text="Realtime Tax Calculator" color="text-black text-base lg:text-xl xl:text-4xl text-center py-5 uppercase"/>
         <InputFormDynamic/>
         {/*<Inputform/>*/}
     </main>
