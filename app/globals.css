@@ -9,3 +9,7 @@ select::-ms-expand {
 select option {
     padding: 0.5rem 1rem;
 }
+
+body{
+    background-color: #F9FAFB;
+}

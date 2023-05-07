@@ -4,7 +4,7 @@ import {Controller, useForm} from "react-hook-form";
 import Label from "@/app/shared/label";
 import Formtext from "@/app/shared/formtext";
 import SummaryDataRow from "@/app/shared/summaryDataRow";
-import Hra from "@/app/components/hra";
+import Hra from "@/app/home/components/hra";
 import Errormessage from "@/app/shared/Errormessage";
 import * as net from "net";
 
@@ -24,7 +24,7 @@ const InputFormDynamic = () => {
     const { register, watch, handleSubmit, control } = useForm<FormValues>();
     const [selectedOption, setSelectedOption] = useState("");
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-    const [options, setOptions] = useState<string[]>(["PF", "PPF", "Education_Loan_interest"]);
+    const [options, setOptions] = useState<string[]>(["PF", "PPF", "Education_Loan_interest", "SIP"]);
     const [formValue, setFormValue] = useState<FormValues>({
         GrossSalary: 0,
         BasicSalary: 0,
@@ -199,8 +199,8 @@ const InputFormDynamic = () => {
                         >
                             <option value="">Select an option</option>
                             {options.map((option) => (
-                                <option key={option.split('_').join(' ')} value={option}>
-                                    {option}
+                                <option key={option} value={option}>
+                                    {option.split('_').join(' ')}
                                 </option>
                             ))}
                         </select>
@@ -210,62 +210,64 @@ const InputFormDynamic = () => {
                     </div>
                 </div>
             </div>
-            <div className="col-span-12 md:col-span-6 bg-gray-100 p-4 order-2">
-                <Formtext text="Summary Report" color="text-black uppercase"/>
+            {formValue.GrossSalary > 0 && (
+                <div className="col-span-12 md:col-span-6 bg-gray-100 p-4 order-2">
+                    <Formtext text="Summary Report" color="text-black uppercase"/>
 
-                {formValue && (<div className="grid grid-cols-12" ref={reportTemplateRef}>
-                    {formValue.GrossSalary * 12 < 500000 && formValue.GrossSalary > 0 ?
-                        <div className="text-center col-span-12 text-sm md:text-base lg:text-xl xl:text-4xl text-gray-500 mt-10">
-                            You are gross salary {(formValue.GrossSalary * 12).toLocaleString("en-In")} per/year is less than 5,00,000
-                            You are not eligible for any tax
-                        </div>
-                        :
-                        <>
-                            {formValue.GrossSalary > 0 && <SummaryDataRow text1="Gross Salary" data={formValue.GrossSalary * 12}/>}
+                    {formValue && (<div className="grid grid-cols-12" ref={reportTemplateRef}>
+                        {formValue.GrossSalary * 12 < 500000 && formValue.GrossSalary > 0 ?
+                            <div className="text-center col-span-12 text-sm md:text-base lg:text-xl text-gray-500 mt-10">
+                                You are gross salary {(formValue.GrossSalary * 12).toLocaleString("en-In")} per/year is less than 5,00,000
+                                You are not eligible for any tax
+                            </div>
+                            :
+                            <>
+                                {formValue.GrossSalary > 0 && <SummaryDataRow text1="Gross Salary" data={formValue.GrossSalary * 12}/>}
 
-                            {formValue.GrossSalary > 0 && <SummaryDataRow text1="Standard Deduction" data={50000}/>}
+                                {formValue.GrossSalary > 0 && <SummaryDataRow text1="Standard Deduction" data={50000}/>}
 
-                            {formValue.HRA > 0 && formValue.rent > 0 && formValue.BasicSalary &&
-                                <div className={`col-span-12 flex justify-between px-2`}>
-                                    <div>
-                                        <span className="text-gray-700 font-bold">HRA</span>
-                                        <span
-                                            onClick={() =>{setShowHRA(!showHRA)}}
-                                            className="italic text-xs ml-1 text-sky-600 cursor-pointer hover:underline">(House Rent Allowance)</span>
+                                {formValue.HRA > 0 && formValue.rent > 0 && formValue.BasicSalary &&
+                                    <div className={`col-span-12 flex justify-between px-2`}>
+                                        <div>
+                                            <span className="text-gray-700 font-bold">HRA</span>
+                                            <span
+                                                onClick={() =>{setShowHRA(!showHRA)}}
+                                                className="italic text-xs ml-1 text-sky-600 cursor-pointer hover:underline">(House Rent Allowance)</span>
+                                        </div>
+                                        <div className="text-lg text-black/[0.5]">{impData.netHra.toLocaleString('en-IN')}</div>
+                                    </div>}
+
+                                {impData.netHra > 0 && showHRA && <Hra data={formValue}/>}
+
+                                {formValue.PF > 0 &&
+                                    <div className="col-span-12">
+                                        <Formtext text="Section 80C" color="text-sm text-gray-500"/>
                                     </div>
-                                    <div className="text-lg text-black/[0.5]">{impData.netHra.toLocaleString('en-IN')}</div>
-                                </div>}
+                                }
 
-                            {impData.netHra > 0 && showHRA && <Hra data={formValue}/>}
+                                {formValue.PF > 0 && <SummaryDataRow text1="EPF or PF" text2="Employee Provident Fund" data={formValue.PF * 12}/>}
 
-                            {formValue.PF > 0 &&
-                                <div className="col-span-12">
-                                    <Formtext text="Section 80C" color="text-sm text-gray-500"/>
-                                </div>
-                            }
+                                {formValue.PPF > 0 && <SummaryDataRow text1="PPF" text2="Public Provident Fund" data={formValue.PPF * 12}/>}
 
-                            {formValue.PF > 0 && <SummaryDataRow text1="EPF or PF" text2="Employee Provident Fund" data={formValue.PF * 12}/>}
+                                {formValue.SIP > 0 && <SummaryDataRow text1="SIP" text2="Systematic Investment Plan" data={formValue.SIP * 12}/>}
 
-                            {formValue.PPF > 0 && <SummaryDataRow text1="PPF" text2="Public Provident Fund" data={formValue.PPF * 12}/>}
+                                {formValue.Education_Loan_interest > 0 &&
+                                    <div className="col-span-12">
+                                        <Formtext text="Section 80E" color="text-sm text-gray-500"/>
+                                    </div>
+                                }
 
-                            {formValue.SIP > 0 && <SummaryDataRow text1="SIP" text2="Systematic Investment Plan" data={formValue.SIP * 12}/>}
+                                {formValue.Education_Loan_interest > 0 && <SummaryDataRow text1="Education Loan" text2="Education loan interest anually" data={formValue.Education_Loan_interest * 12}/>}
 
-                            {formValue.Education_Loan_interest > 0 &&
-                                <div className="col-span-12">
-                                    <Formtext text="Section 80E" color="text-sm text-gray-500"/>
-                                </div>
-                            }
-
-                            {formValue.Education_Loan_interest > 0 && <SummaryDataRow text1="Education Loan" text2="Education loan interest anually" data={formValue.Education_Loan_interest * 12}/>}
-
-                            {formValue.GrossSalary > 0 && <SummaryDataRow text1="Taxable Income"
-                                                                          classes="border-t border-gray-300 mt-3 pt-1"
-                                                                          data={impData.taxableIncome}/>}
-                            {formValue.GrossSalary > 0 && <SummaryDataRow text1="Tax Liability" data={impData.taxLiability}/>}
-                        </>
-                    }
-                </div>)}
-            </div>
+                                {formValue.GrossSalary > 0 && <SummaryDataRow text1="Taxable Income"
+                                                                              classes="border-t border-gray-300 mt-3 pt-1"
+                                                                              data={impData.taxableIncome}/>}
+                                {formValue.GrossSalary > 0 && <SummaryDataRow text1="Tax Liability" data={impData.taxLiability}/>}
+                            </>
+                        }
+                    </div>)}
+                </div>
+            )}
         </div>
     );
 };

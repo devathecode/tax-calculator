@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import { useRef } from 'react';
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import Hra from "@/app/components/hra";
+import Hra from "@/app/home/components/hra";
 import Formtext from "@/app/shared/formtext";
 import Label from "@/app/shared/label";
 import Errormessage from "@/app/shared/Errormessage";
