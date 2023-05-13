@@ -1,8 +1,6 @@
-"use client";
-
 import React from 'react';
 import Header from "@/app/core/components/Header/Header";
-import Head from "@/app/home/head";
+
 
 export default function HomeLayout({
                                        children,
@@ -11,7 +9,6 @@ export default function HomeLayout({
 }) {
     return (
         <>
-            <Head/>
             <Header/>
             <main>
                 {children}

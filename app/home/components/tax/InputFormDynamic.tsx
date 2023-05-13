@@ -4,7 +4,7 @@ import {Controller, useForm} from "react-hook-form";
 import Label from "@/app/shared/label";
 import Formtext from "@/app/shared/formtext";
 import SummaryDataRow from "@/app/shared/summaryDataRow";
-import Hra from "@/app/home/components/hra";
+import Hra from "@/app/home/components/tax/hra";
 import Errormessage from "@/app/shared/Errormessage";
 import * as net from "net";
 
