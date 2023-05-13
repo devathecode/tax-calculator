@@ -2,8 +2,12 @@ import React from 'react';
 import Calcard from "@/app/home/components/tax/calcard";
 import Image from "next/image";
 export const metadata = {
-    title: 'Home | GoCalc',
-    description: 'Home page of GoCalc'
+    title: 'Calculators | Calculate Anything, Anytime',
+    description: 'A website that provides calculators for calculating anything.' +
+        ' Use our calculators to calculate your taxes, mortgage, credit card debt, and more. Start working on realtime',
+    keywords: ['calculator', 'tax calculator', 'mortgage calculator', 'credit card debt calculator',
+        'interest rate calculator', 'amortization calculator', 'depreciation calculator',
+        'ROI calculator', 'profit margin calculator', 'break-even point calculator']
 }
 
 
